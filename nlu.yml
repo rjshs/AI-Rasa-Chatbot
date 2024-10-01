@@ -1,0 +1,33 @@
+version: "2.0"
+nlu:
+- intent: greet
+  examples: |
+    - Hi
+    - Hello
+    - Hey there
+    - Hi, I need to onboard
+
+- intent: provide_name
+  examples: |
+    - My name is [Ryan](name)
+    - I'm [Samantha](name)
+    - You can call me [John](name)
+    - I am [Maria](name)
+
+- intent: provide_email
+  examples: |
+    - My email is [john.doe@example.com](email)
+    - You can contact me at [maria123@gmail.com](email)
+    - It's [test.user@company.com](email)
+
+- intent: provide_company
+  examples: |
+    - I work for [Acme Corp](company)
+    - My company is [Tech Inc](company)
+    - I'm with [Example LLC](company)
+
+- intent: provide_payment
+  examples: |
+    - Here are my payment details
+    - I need to set up payments
+    - Set up my payment info

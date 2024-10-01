@@ -1,0 +1,25 @@
+version: "2.0"
+stories:
+- story: happy_path_onboarding_with_delay_handling
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: provide_name
+    - action: utter_ask_email
+    - action: action_track_progress
+    - slot_was_set:
+        - name_timestamp: "{current_time}"
+    - intent: provide_email
+    - action: utter_ask_company
+    - action: action_handle_delay
+    - intent: provide_company
+    - action: utter_ask_payment
+    - intent: provide_payment
+    - action: action_save_onboarding_data
+    - action: action_handle_delay
+
+- story: recommend_template_path
+  steps:
+    - intent: provide_company
+    - action: action_recommend_template
+    - action: utter_recommend_template

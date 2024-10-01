@@ -1,0 +1,7 @@
+tracker_store:
+  type: mongod
+  url: mongodb://localhost:27017
+  db: rasaOnboarding
+  username: <your_username>  # leave blank if no auth
+  password: <your_password>  # leave blank if no auth
+  collection: conversations

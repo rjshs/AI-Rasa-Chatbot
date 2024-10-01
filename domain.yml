@@ -1,0 +1,49 @@
+version: "2.0"
+
+intents:
+  - greet
+  - provide_name
+  - provide_email
+  - provide_company
+  - provide_payment
+
+entities:
+  - name
+  - email
+  - company
+
+responses:
+  utter_greet:
+    - text: "Hello! Welcome to the onboarding process. Let's start by getting your full name."
+  
+  utter_ask_email:
+    - text: "Great, {name}. Could you provide your email address?"
+
+  utter_ask_company:
+    - text: "Thanks! Now, which company are you with?"
+
+  utter_ask_payment:
+    - text: "Awesome! Could you provide your payment details to complete the process?"
+
+  utter_confirm_onboarding:
+    - text: "Thank you, {name}. You’re all set! Your onboarding is complete."
+
+  utter_recommend_template:
+    - text: "Based on your company, we recommend using the {template} template for faster onboarding."
+
+slots:
+  name:
+    type: text
+  email:
+    type: text
+  company:
+    type: text
+  payment_info:
+    type: text
+  name_timestamp:
+    type: text
+
+actions:
+  - action_validate_email
+  - action_save_onboarding_data
+  - action_track_progress
