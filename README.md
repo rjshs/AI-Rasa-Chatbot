@@ -47,7 +47,6 @@ Entities: Extract structured data from user input (e.g., the actual email or com
 Example of the NLU configuration for recognizing a user’s name:
 
 yaml
-Copy code
 nlu:
 - intent: provide_name
   examples: |
@@ -62,7 +61,6 @@ domain.yml: Stores the intents, entities, slots, and actions the bot can perform
 Example of a story for onboarding:
 
 yaml
-Copy code
 stories:
 - story: happy_path_onboarding
   steps:
@@ -89,7 +87,6 @@ ActionRecommendTemplate: Recommends an onboarding template based on the company 
 Example of a custom action for validating emails:
 
 python
-Copy code
 class ActionValidateEmail(Action):
 
     def name(self) -> str:
