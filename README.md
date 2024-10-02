@@ -4,47 +4,50 @@ AI-Powered Client Onboarding Chatbot Documentation
 Project Overview
 This project is an AI-powered chatbot built using Rasa and Python, aimed at streamlining the client onboarding process. It integrates with a Spring Boot backend for real-time field validation and stores and analyzes user data with MongoDB. The chatbot tracks the progress of onboarding, handles user delays, and provides personalized template recommendations based on user inputs and historical behavior patterns.
 
-Key Technologies:
-Rasa: Natural Language Understanding (NLU), Dialogue Management
-Python: Custom logic, Rasa backend
-Spring Boot: REST API development for backend field validation
-MongoDB: NoSQL database for storing onboarding data and conversation logs
-Postman: For API testing and validation
-NLU (Natural Language Understanding): Used in Rasa for understanding user inputs and extracting relevant data
-Custom Actions: Used for dynamic functionality like data validation, progress tracking, and template recommendations
-JSON: Data format for API communication and storing key information
-System Architecture
-1. Frontend: Rasa Chatbot
-The frontend of the project is the chatbot itself, built with Rasa. The chatbot interacts with users, collecting data through conversation. The following components are essential to the chatbot:
+Key Technologies:  
+Rasa: Natural Language Understanding (NLU), Dialogue Management  
+Python: Custom logic, Rasa backend  
+Spring Boot: REST API development for backend field validation  
+MongoDB: NoSQL database for storing onboarding data and conversation logs  
+Postman: For API testing and validation  
+NLU (Natural Language Understanding): Used in Rasa for understanding user inputs and extracting relevant data  
+Custom Actions: Used for dynamic functionality like data validation, progress tracking, and template recommendations  
+JSON: Data format for API communication and storing key information  
 
-NLU (Natural Language Understanding): Rasa uses NLU to interpret and extract data from user inputs. Key information such as user name, email, company, and payment details are identified using intents and entities defined in the nlu.yml file.
+System Architecture  
+1. Frontend: Rasa Chatbot  
+The frontend of the project is the chatbot itself, built with Rasa. The chatbot interacts with users, collecting data through conversation. The following components are essential to the chatbot:  
+  
+NLU (Natural Language Understanding): Rasa uses NLU to interpret and extract data from user inputs. Key information such as user name, email, company, and payment details are identified using intents and entities defined in the nlu.yml file.  
 
-Dialogue Management: Rasa manages the flow of conversation by following predefined stories and rules. These define how the chatbot reacts to user inputs and progresses through the onboarding process.
+Dialogue Management: Rasa manages the flow of conversation by following predefined stories and rules. These define how the chatbot reacts to user inputs and progresses through the onboarding process.  
 
-Custom Actions: Several custom actions were implemented in actions.py to extend the functionality of the bot. These include:
+Custom Actions: Several custom actions were implemented in actions.py to extend the functionality of the bot. These include:  
 
-Email validation: A custom action that interacts with a REST API built with Spring Boot to validate email addresses.
-Progress tracking: Tracks how far along the user is in the onboarding process.
-Template recommendations: Recommends the fastest onboarding templates based on the user's company.
-2. Backend: Spring Boot REST API
-The backend is developed using Spring Boot to provide RESTful APIs for real-time field validation. The backend validates key fields (e.g., email format) to ensure the onboarding process is smooth and error-free. The backend has two primary endpoints:
+Email validation: A custom action that interacts with a REST API built with Spring Boot to validate email addresses.  
+Progress tracking: Tracks how far along the user is in the onboarding process.  
+Template recommendations: Recommends the fastest onboarding templates based on the user's company.  
+2. Backend: Spring Boot REST API  
+The backend is developed using Spring Boot to provide RESTful APIs for real-time field validation. The backend validates key fields (e.g., email format) to ensure the onboarding process is smooth and error-free. The backend has two primary endpoints:  
 
-Email Validation Endpoint: This endpoint checks if the user’s email is in a valid format. It’s invoked by the chatbot whenever the user provides an email address.
-Data Storage Endpoint: Once the user completes the onboarding process, the chatbot sends all collected data to the backend, which stores it in MongoDB.
-Technologies used:
-Spring Boot: The core framework for building the backend API.
-REST APIs: Used for communication between the chatbot and the backend.
-Postman: Utilized for API testing to ensure all endpoints are working as expected.
-Key Components and Workflows
-1. Natural Language Understanding (NLU)
-Rasa’s NLU is the component responsible for interpreting user input. It uses a combination of intents and entities to understand what the user is trying to achieve.
+Email Validation Endpoint: This endpoint checks if the user’s email is in a valid format. It’s invoked by the chatbot whenever the user provides an email address.  
+Data Storage Endpoint: Once the user completes the onboarding process, the chatbot sends all collected data to the backend, which stores it in MongoDB.  
+Technologies used:  
+Spring Boot: The core framework for building the backend API.  
+REST APIs: Used for communication between the chatbot and the backend.  
+Postman: Utilized for API testing to ensure all endpoints are working as expected.  
 
-Configuration Files:
-nlu.yml: Contains the training data to recognize intents such as greeting, providing name, email, company, and payment details. It also defines entities to extract structured data (e.g., name, email, company).
-Intents and Entities:
-Intents: Recognize what the user is trying to do (e.g., "provide_email", "provide_company").
-Entities: Extract structured data from user input (e.g., the actual email or company name).
-Example of the NLU configuration for recognizing a user’s name:
+Key Components and Workflows  
+1. Natural Language Understanding (NLU)  
+Rasa’s NLU is the component responsible for interpreting user input. It uses a combination of intents and entities to understand what the user is trying to achieve.  
+
+Configuration Files:  
+nlu.yml: Contains the training data to recognize intents such as greeting, providing name, email, company, and payment details. It also defines entities to extract structured data (e.g., name, email, company).  
+
+Intents and Entities:  
+Intents: Recognize what the user is trying to do (e.g., "provide_email", "provide_company").  
+Entities: Extract structured data from user input (e.g., the actual email or company name).  
+Example of the NLU configuration for recognizing a user’s name:  
 
 yaml
 nlu:
@@ -122,33 +125,33 @@ db.conversations.aggregate([
   { "$group": { "_id": "$events.parse_data.intent.name", "count": { "$sum": 1 } } },
   { "$sort": { "count": -1 } }
 ])
-Features and Functionality
-1. Progress Tracking
-The chatbot tracks how much of the onboarding process has been completed and informs the user of their progress after each step. This enhances the user experience by giving feedback and keeping the user engaged.
+Features and Functionality  
+1. Progress Tracking  
+The chatbot tracks how much of the onboarding process has been completed and informs the user of their progress after each step. This enhances the user experience by giving feedback and keeping the user engaged.  
 
-2. Personalization
-The chatbot remembers user data (e.g., their company) and can offer to reuse it in future interactions, streamlining the process for repeat users.
+2. Personalization  
+The chatbot remembers user data (e.g., their company) and can offer to reuse it in future interactions, streamlining the process for repeat users.  
 
-3. Field Validation
-Real-time field validation is performed using the Spring Boot backend. The chatbot ensures that users provide correct data (e.g., a valid email address) before moving forward.
+3. Field Validation  
+Real-time field validation is performed using the Spring Boot backend. The chatbot ensures that users provide correct data (e.g., a valid email address) before moving forward.  
 
-4. Delay Handling
-If a user takes too long to respond, the chatbot can send a reminder or offer help, ensuring that the onboarding process continues smoothly.
+4. Delay Handling  
+If a user takes too long to respond, the chatbot can send a reminder or offer help, ensuring that the onboarding process continues smoothly.  
 
-5. Template Recommendations
-Based on historical user data (e.g., company name), the chatbot recommends the fastest onboarding templates, reducing the time users spend filling out forms.
+5. Template Recommendations  
+Based on historical user data (e.g., company name), the chatbot recommends the fastest onboarding templates, reducing the time users spend filling out forms.  
 
-API Endpoints
-The Spring Boot backend exposes REST APIs for real-time validation and data storage. These APIs are consumed by the Rasa chatbot during the conversation.
+API Endpoints  
+The Spring Boot backend exposes REST APIs for real-time validation and data storage. These APIs are consumed by the Rasa chatbot during the conversation.  
 
-Key Endpoints:
-Email Validation API:
-Method: GET
-URL: /api/validate/email
-Description: Validates the user’s email format.
-Save Onboarding Data API:
-Method: POST
-URL: /api/onboarding/save
-Description: Stores user-provided onboarding data in MongoDB.
-Conclusion
+Key Endpoints:  
+Email Validation API:  
+Method: GET  
+URL: /api/validate/email  
+Description: Validates the user’s email format.  
+Save Onboarding Data API:  
+Method: POST  
+URL: /api/onboarding/save  
+Description: Stores user-provided onboarding data in MongoDB.  
+Conclusion  
 This AI-powered client onboarding chatbot is designed to automate and enhance the onboarding process by using cutting-edge technologies like Rasa, Python, Spring Boot, and MongoDB. It leverages NLU for understanding user input, REST APIs for backend communication, and advanced analytics for improving the user experience. This project showcases how modern frameworks and databases can be integrated to create efficient and user-friendly solutions for complex business processes.
