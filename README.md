@@ -49,48 +49,48 @@ Intents: Recognize what the user is trying to do (e.g., "provide_email", "provid
 Entities: Extract structured data from user input (e.g., the actual email or company name).  
 Example of the NLU configuration for recognizing a user’s name:  
 
-yaml
-nlu:
-- intent: provide_name
-  examples: |
-    - My name is [John Doe](name)
-    - I'm [Jane](name)
-    - You can call me [Chris](name)
-2. Dialogue Management
-Dialogue management is defined in Rasa using stories and rules.
+yaml  
+nlu:  
+- intent: provide_name  
+  examples: |  
+    - My name is [John Doe](name)  
+    - I'm [Jane](name)  
+    - You can call me [Chris](name)  
+2. Dialogue Management  
+Dialogue management is defined in Rasa using stories and rules.  
 
-stories.yml: Defines the sequence of actions based on user inputs. The chatbot follows the story to decide what to ask the user next. For example, after greeting, it will ask for the user’s name, then their email, and so on.
-domain.yml: Stores the intents, entities, slots, and actions the bot can perform. Slots store user data (e.g., the name and email provided by the user) throughout the conversation.
-Example of a story for onboarding:
+stories.yml: Defines the sequence of actions based on user inputs. The chatbot follows the story to decide what to ask the user next. For example, after greeting, it will ask for the user’s name, then their email, and so on.  
+domain.yml: Stores the intents, entities, slots, and actions the bot can perform. Slots store user data (e.g., the name and email provided by the user) throughout the conversation.  
+Example of a story for onboarding:  
 
-yaml
-stories:
-- story: happy_path_onboarding
-  steps:
-    - intent: greet
-    - action: utter_greet
-    - intent: provide_name
-    - action: utter_ask_email
-    - intent: provide_email
-    - action: action_validate_email
-    - action: utter_ask_company
-    - intent: provide_company
-    - action: utter_ask_payment
-    - intent: provide_payment
-    - action: action_save_onboarding_data
-    - action: utter_confirm_onboarding
-3. Custom Actions
-Custom actions extend the functionality of the chatbot by allowing it to interact with external services. Custom actions are defined in actions.py and executed during conversations.
+yaml  
+stories:  
+- story: happy_path_onboarding  
+  steps:  
+    - intent: greet  
+    - action: utter_greet  
+    - intent: provide_name  
+    - action: utter_ask_email  
+    - intent: provide_email  
+    - action: action_validate_email  
+    - action: utter_ask_company  
+    - intent: provide_company  
+    - action: utter_ask_payment  
+    - intent: provide_payment  
+    - action: action_save_onboarding_data  
+    - action: utter_confirm_onboarding  
+3. Custom Actions  
+Custom actions extend the functionality of the chatbot by allowing it to interact with external services. Custom actions are defined in actions.py and executed during conversations.  
 
-Key Custom Actions:
-ActionValidateEmail: Calls the Spring Boot backend to validate the user’s email.
-ActionTrackProgress: Tracks the user’s progress by calculating how many steps of the onboarding process have been completed.
-ActionSaveOnboardingData: Sends user-provided data to the backend to be stored in MongoDB.
-ActionRecommendTemplate: Recommends an onboarding template based on the company the user provides.
-Example of a custom action for validating emails:
+Key Custom Actions:  
+ActionValidateEmail: Calls the Spring Boot backend to validate the user’s email.  
+ActionTrackProgress: Tracks the user’s progress by calculating how many steps of the onboarding process have been completed.  
+ActionSaveOnboardingData: Sends user-provided data to the backend to be stored in MongoDB.  
+ActionRecommendTemplate: Recommends an onboarding template based on the company the user provides.  
+Example of a custom action for validating emails:  
 
-python
-class ActionValidateEmail(Action):
+python  
+class ActionValidateEmail(Action):  
 
     def name(self) -> str:
         return "action_validate_email"
@@ -115,16 +115,16 @@ MongoDB is used to store user-provided data (e.g., name, email, company, payment
 Conversation Logging:
 Using Rasa’s tracker store, all user interactions and conversations are logged in MongoDB. This enables analysis of how users interact with the chatbot, which can be used to improve the onboarding process over time.
 
-Example query to track common user behaviors:
+Example query to track common user behaviors:  
 
-python
-Copy code
-db.conversations.aggregate([
-  { "$unwind": "$events" },
-  { "$match": { "events.event": "user" } },
-  { "$group": { "_id": "$events.parse_data.intent.name", "count": { "$sum": 1 } } },
-  { "$sort": { "count": -1 } }
-])
+python  
+Copy code  
+db.conversations.aggregate([  
+  { "$unwind": "$events" },  
+  { "$match": { "events.event": "user" } },  
+  { "$group": { "_id": "$events.parse_data.intent.name", "count": { "$sum": 1 } } },  
+  { "$sort": { "count": -1 } }  
+])  
 Features and Functionality  
 1. Progress Tracking  
 The chatbot tracks how much of the onboarding process has been completed and informs the user of their progress after each step. This enhances the user experience by giving feedback and keeping the user engaged.  
